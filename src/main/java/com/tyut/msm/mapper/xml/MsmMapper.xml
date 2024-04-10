@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyut.msm.mapper.MsmMapper">
+    <select id="getgetRandomMsm" resultType="com.tyut.msm.entity.Msm">
+        SELECT * FROM msm WHERE id >= (( SELECT MAX( id ) FROM msm )-( SELECT MIN( id ) FROM msm )) * RAND() + ( SELECT MIN( id ) FROM msm )
+LIMIT 8
+
+    </select>
+
+    <select id="selectMsmCount" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM msm
+    WHERE DATE(gmt_create) = #{value}
+    </select>
+
+    <select id="selectAcNum" resultType="com.tyut.msm.entity.Msm">
+    SELECT * FROM `msm`
+
+WHERE id >= (SELECT floor( RAND() * ((SELECT MAX(id) FROM `msm`)-(SELECT MIN(id) FROM `msm`)) + (SELECT MIN(id) FROM `msm`))) and `status` = 1
+
+ORDER BY id LIMIT 6;
+    </select>
+
+</mapper>
